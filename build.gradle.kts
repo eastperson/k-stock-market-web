@@ -29,6 +29,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("io.github.microutils:kotlin-logging:1.12.5")
     runtimeOnly("com.h2database:h2")
+    implementation("com.opencsv:opencsv:4.6")
+
 
     testImplementation("com.h2database:h2")
     compileOnly("org.projectlombok:lombok")
