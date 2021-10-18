@@ -10,10 +10,9 @@ public class FileReadScheduler {
 
     private final FileReadService fileReadService;
 
-
     @Scheduled(cron = "0 0 * * * *", zone = "Asia/Seoul")
     private void fileRead(){
-        fileReadService.read();
+        fileReadService.fileRead();
     }
 
 }
