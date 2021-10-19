@@ -1,21 +1,26 @@
 package com.k_stock_market.web.service
 
 import com.k_stock_market.web.entity.StockEntity
+import com.k_stock_market.web.properties.PathProperties
 import com.k_stock_market.web.repository.StockRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.stereotype.Service
 import java.io.FileReader
 
 import java.io.BufferedReader
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 import java.util.ArrayList
 import java.util.stream.Collectors.groupingBy
+import javax.swing.text.DateFormatter
 
 @Service
 class FileReadService @Autowired constructor(
-    var stockRepository: StockRepository
+    var stockRepository: StockRepository,
+    var pathProperties: PathProperties
     ) {
 
     private val ROW_NUM_INDX = 0; // 행 번호
@@ -42,12 +47,14 @@ class FileReadService @Autowired constructor(
     fun fileRead():List<StockEntity> {
         val stocks = ArrayList<StockEntity>()
         var line: String?
+        val today = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy_MM_dd"))
 
-        val bufferedReader = BufferedReader(FileReader("src/main/resources/files/stock.csv"))
+
+        val bufferedReader = BufferedReader(FileReader(pathProperties.path + "stock_"+ today + ".csv"))
         println(bufferedReader)
 
         // Kotlin에서 try-with-resource 문법은 use를 활용한다.
-        BufferedReader(FileReader("src/main/resources/files/stock.csv")).use { fileReader ->
+        BufferedReader(FileReader(pathProperties.path)).use { fileReader ->
 
             // Read CSV header
             fileReader.readLine();
